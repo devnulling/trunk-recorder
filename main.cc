@@ -73,7 +73,7 @@ string system_type;
 gr::top_block_sptr tb;
 smartnet_trunking_sptr smartnet_trunking;
 p25_trunking_sptr p25_trunking;
-gr::msg_queue::sptr queue;
+gr::msg_queue::sptr new_queue;
 
 volatile sig_atomic_t exit_flag = 0;
 SmartnetParser *smartnet_parser;
@@ -478,7 +478,7 @@ void monitor_messages() {
         }
 
 
-        msg = queue->delete_head();
+        msg = new_queue->delete_head();
         messagesDecodedSinceLastReport++;
         currentTime = time(NULL);
 
@@ -540,13 +540,13 @@ bool monitor_system() {
     if (source_found) {
         if (system_type == "smartnet") {
             // what you really need to do is go through all of the sources to find the one with the right frequencies
-            smartnet_trunking = make_smartnet_trunking(control_channel_freq, source->get_center(), source->get_rate(),  queue);
+            smartnet_trunking = make_smartnet_trunking(control_channel_freq, source->get_center(), source->get_rate(),  new_queue);
             tb->connect(source->get_src_block(),0, smartnet_trunking, 0);
         }
 
         if (system_type == "p25") {
             // what you really need to do is go through all of the sources to find the one with the right frequencies
-            p25_trunking = make_p25_trunking(control_channel_freq, source->get_center(), source->get_rate(),  queue);
+            p25_trunking = make_p25_trunking(control_channel_freq, source->get_center(), source->get_rate(),  new_queue);
             tb->connect(source->get_src_block(),0, p25_trunking, 0);
         }
     }
@@ -562,7 +562,7 @@ int main(void)
      );
 
     tb = gr::make_top_block("Trunking");
-    queue = gr::msg_queue::make(100);
+    new_queue = gr::msg_queue::make(100);
     smartnet_parser = new SmartnetParser(); // this has to eventually be generic;
     p25_parser = new P25Parser();
 

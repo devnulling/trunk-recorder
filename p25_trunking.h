@@ -65,13 +65,13 @@ class p25_trunking;
 
 typedef boost::shared_ptr<p25_trunking> p25_trunking_sptr;
 
-p25_trunking_sptr make_p25_trunking(double f, double c, long s, gr::msg_queue::sptr queue);
+p25_trunking_sptr make_p25_trunking(double f, double c, long s, gr::msg_queue::sptr new_queue);
 
 class p25_trunking : public gr::hier_block2, public Recorder
 {
-	friend p25_trunking_sptr make_p25_trunking(double f, double c, long s, gr::msg_queue::sptr queue);
+	friend p25_trunking_sptr make_p25_trunking(double f, double c, long s, gr::msg_queue::sptr new_queue);
 protected:
-	p25_trunking(double f, double c, long s, gr::msg_queue::sptr queue);
+	p25_trunking(double f, double c, long s, gr::msg_queue::sptr new_queue);
 
 public:
 	~p25_trunking();

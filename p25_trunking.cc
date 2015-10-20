@@ -3,9 +3,9 @@
 #include <boost/log/trivial.hpp>
 
 
-p25_trunking_sptr make_p25_trunking(double freq, double center, long s,  gr::msg_queue::sptr queue)
+p25_trunking_sptr make_p25_trunking(double freq, double center, long s,  gr::msg_queue::sptr new_queue)
 {
-	return gnuradio::get_initial_sptr(new p25_trunking(freq, center, s, queue));
+	return gnuradio::get_initial_sptr(new p25_trunking(freq, center, s, new_queue));
 }
 
 
@@ -37,7 +37,7 @@ std::vector<float> p25_trunking::design_filter(double interpolation, double deci
 
 
 
-p25_trunking::p25_trunking(double f, double c, long s, gr::msg_queue::sptr queue)
+p25_trunking::p25_trunking(double f, double c, long s, gr::msg_queue::sptr new_queue)
 	: gr::hier_block2 ("p25_trunking",
 	                   gr::io_signature::make  (1, 1, sizeof(gr_complex)),
 	                   gr::io_signature::make  (0, 0, sizeof(float)))
@@ -105,7 +105,7 @@ p25_trunking::p25_trunking(double f, double c, long s, gr::msg_queue::sptr queue
 	//symbol_coeffs = (1.0/samples_per_symbol,)*samples_per_symbol
 	sym_filter =  gr::filter::fir_filter_fff::make(symbol_decim, sym_taps);
 	tune_queue = gr::msg_queue::make(100);
-	rx_queue = queue;
+	rx_queue = new_queue;
 	const float l[] = { -2.0, 0.0, 2.0, 4.0 };
 	std::vector<float> levels( l,l + sizeof( l ) / sizeof( l[0] ) );
 	op25_demod = gr::op25::fsk4_demod_ff::make(tune_queue, system_channel_rate, symbol_rate);

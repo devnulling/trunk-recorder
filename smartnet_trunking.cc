@@ -2,12 +2,12 @@
 
 using namespace std;
 
-smartnet_trunking_sptr make_smartnet_trunking(float freq, float center, long samp, gr::msg_queue::sptr queue)
+smartnet_trunking_sptr make_smartnet_trunking(float freq, float center, long samp, gr::msg_queue::sptr new_queue)
 {
-	return gnuradio::get_initial_sptr(new smartnet_trunking(freq, center, samp, queue));
+	return gnuradio::get_initial_sptr(new smartnet_trunking(freq, center, samp, new_queue));
 }
 
-smartnet_trunking::smartnet_trunking(float f, float c, long s, gr::msg_queue::sptr queue)
+smartnet_trunking::smartnet_trunking(float f, float c, long s, gr::msg_queue::sptr new_queue)
 	: gr::hier_block2 ("smartnet_trunking",
 	                   gr::io_signature::make  (1, 1, sizeof(gr_complex)),
 	                   gr::io_signature::make  (0, 0, sizeof(float)))
@@ -53,7 +53,7 @@ smartnet_trunking::smartnet_trunking(float f, float c, long s, gr::msg_queue::sp
 
 	smartnet_deinterleave_sptr deinterleave = smartnet_make_deinterleave();
 
-	smartnet_crc_sptr crc = smartnet_make_crc(queue);
+	smartnet_crc_sptr crc = smartnet_make_crc(new_queue);
 
 	connect(self(),0,prefilter,0);
 	connect(prefilter,0,carriertrack,0);

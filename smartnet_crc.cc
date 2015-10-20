@@ -39,18 +39,18 @@
  * Create a new instance of smartnet_crc and return
  * a boost shared_ptr.  This is effectively the public constructor.
  */
-smartnet_crc_sptr smartnet_make_crc(gr::msg_queue::sptr queue)
+smartnet_crc_sptr smartnet_make_crc(gr::msg_queue::sptr new_queue)
 {
-	return smartnet_crc_sptr (new smartnet_crc (queue));
+	return smartnet_crc_sptr (new smartnet_crc (new_queue));
 }
 
-smartnet_crc::smartnet_crc (gr::msg_queue::sptr queue)
+smartnet_crc::smartnet_crc (gr::msg_queue::sptr new_queue)
 	: gr::sync_block ("crc",
 	                  gr::io_signature::make (1, 1, sizeof (char)),
 	                  gr::io_signature::make (0, 0, 0))
 {
 	set_output_multiple(38);
-	d_queue = queue;
+	d_queue = new_queue;
 }
 
 /*

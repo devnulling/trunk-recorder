@@ -6,7 +6,7 @@ if(NOT LIBOP25_REPEATER_FOUND)
     HINTS ${LIBOP25_REPEATER_PKG_INCLUDE_DIRS}
     PATHS /usr/include
           /usr/local/include
-          /home/luke/gr3.7/include
+          /home/node/sdr/target/include
   )
 
   find_library(LIBOP25_REPEATER_LIBRARIES
@@ -14,7 +14,7 @@ if(NOT LIBOP25_REPEATER_FOUND)
     HINTS ${LIBOP25_REPEATER_PKG_LIBRARY_DIRS}
     PATHS /usr/lib
           /usr/local/lib
-          /home/luke/gr3.7/lib
+          /home/node/sdr/target/lib
   )
 message(STATUS "Pkg: ${LIBOP25_REPEATER_PKG}, ${LIBOP25_REPEATER_PKG_INCLUDE_DIRS}, ${LIBOP25_REPEATER_PKG_LIBRARY_DIRS}")
 message(STATUS "Vars: ${LIBOP25_REPEATER_INCLUDE_DIR}, ${LIBOP25_REPEATER_LIBRARIES}")
